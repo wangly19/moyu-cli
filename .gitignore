@@ -1,0 +1,12 @@
+*.log
+.next/
+.vscode/
+.idea/
+*.tsbuildinfo
+build/
+dist/
+lib/
+node_modules/
+yarn.lock
+.DS_Store
+package-lock.json
