@@ -1,0 +1,23 @@
+{
+  "name": "moyu-cli",
+  "version": "1.0.0",
+  "main": "./dist",
+  "repository": "https://github.com/wangly19/moyu-cli.git",
+  "author": "wangly19 <1418202350@qq.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "bin": {
+    "moyu1": "./dist/cli.js"
+  },
+  "devDependencies": {
+    "@rollup/plugin-alias": "^3.1.8",
+    "@rollup/plugin-json": "^4.1.0",
+    "rollup": "^2.59.0",
+    "rollup-plugin-cleandir": "^1.0.0",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-preserve-shebangs": "^0.2.0",
+    "rollup-plugin-terser": "^7.0.2"
+  }
+}
