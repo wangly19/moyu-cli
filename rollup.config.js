@@ -1,7 +1,9 @@
 import json from '@rollup/plugin-json'
 import { cleandir } from 'rollup-plugin-cleandir'
+import typescript from 'rollup-plugin-typescript2'
 import { preserveShebangs } from 'rollup-plugin-preserve-shebangs'
 import alias from '@rollup/plugin-alias'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
 
 export default {
   input: [
@@ -25,9 +27,19 @@ export default {
     /** 别名 */
     alias({
       entries: [
-        { find: '@/', replacement: './package/' },
-        { find: '~/', replacement: './' }
+        { find: '@/', replacement: '/package/' },
+        { find: '@@/', replacement: '/' }
       ]
+    }),
+
+
+    // 解析typescript
+    typescript(),
+
+    nodeResolve({
+      extensions: ['.js', '.ts'],
+      modulesOnly: true,
+      preferredBuiltins: false
     }),
 
 

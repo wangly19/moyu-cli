@@ -1,5 +1,9 @@
 #!/usr/bin/env node
+import got from 'got'
 
-import { version } from '../../package.json'
-
-console.log(version)
+got.post('http://yapi.smart-xwork.cn/api/user/login', {
+  json: {
+    hello: 'world'
+  },
+  responseType: 'json'
+})
