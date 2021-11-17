@@ -1,1 +1,5 @@
-export default {}
+const generateLocalFileModule = () => {
+  method
+}
+
+export default generateLocalFileModule

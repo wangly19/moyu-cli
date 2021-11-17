@@ -16,7 +16,7 @@ export default {
   },
   plugins: [
     /** 清除dist文件 */
-    cleandir('./dist'),
+    cleandir('./dist/*'),
 
     /** JSON 解析 */
     json(),
