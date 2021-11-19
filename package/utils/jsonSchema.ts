@@ -1,12 +1,12 @@
-import { compile,  } from 'json-schema-to-typescript'
+// import { compile,  } from 'json-schema-to-typescript'
 
 // json schema生成声明文件
 export async function jsonSchemaToDts(json: any, title: string) {
   try {
     // transformJSONSchema(json)
-    await compile(json, title, {
-      bannerComment: "/* tslint:disable */"
-    })
+    // await compile(json, title, {
+    //   bannerComment: "/* tslint:disable */"
+    // })
     
   } catch (error) {
     throw error

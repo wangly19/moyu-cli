@@ -23,7 +23,11 @@ const main = async () => {
     )
     details.forEach(async (v: any) => {
       if (v.value) {
-        await parseRequestModule(v.value)
+        try {
+          await parseRequestModule(v.value)
+        } catch (error) {
+          throw error
+        }
       }
     })
   } catch (error) {

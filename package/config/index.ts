@@ -6,6 +6,7 @@ export interface YapiConfigTypes {
   token: string
   output: string
   requestImportResolve: string
+  url: string
 }
 
 export interface MoyuConfigTypes {
@@ -27,6 +28,13 @@ class MoyuConfig extends MoyuConfigInstance  {
 
   constructor () {
     super()
+  }
+
+  /**
+   * 初始化
+   */
+  init () {
+    this.getLocalConfig() 
   }
 
   /**
@@ -58,11 +66,16 @@ class MoyuConfig extends MoyuConfigInstance  {
    * @returns YAPI配置
    */
   getYpiConfig() {
-    const yapiConfig: YapiConfigTypes = this.config.yapi
+    const yapiConfig: YapiConfigTypes = this.config?.yapi
 
     /** 如果yapi配置不存在，或者内部不存在Prototype下 */
     if (!yapiConfig || Object.keys(yapiConfig).length === 0) {
       throw new Error(`Error: cli配置中不存在相关yapi配置，请配置后重新运行。`)
+    }
+
+     /** yapi配置token不存在，无法拉取项目资料 */
+    if (!yapiConfig.url) {
+      throw new Error(`Error: yapi配置中缺乏yapi地址，请将地址填写在yapi下的url当中。`)
     }
 
     /** yapi配置token不存在，无法拉取项目资料 */
@@ -84,3 +97,9 @@ class MoyuConfig extends MoyuConfigInstance  {
 
   }
 }
+
+const moyuConfig = new MoyuConfig()
+
+moyuConfig.init()
+
+export default moyuConfig

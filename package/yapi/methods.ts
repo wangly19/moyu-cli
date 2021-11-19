@@ -1,12 +1,15 @@
 
 import chalk from 'chalk'
-import got from 'got'
 import ora from 'ora'
 import type { 
   YapiInterfaceResponse, 
   InterfaceListResponse, 
   InterRequestDescribeTypes 
 } from './yapi'
+import moyuConfig from '@/config'
+import request from '@/utils/request'
+
+const yapiConfig = moyuConfig.getYpiConfig()
 
 const loading = ora()
 
@@ -18,9 +21,10 @@ export const getCurrentInterfaceList = async () => {
   try {
     loading.text = '正在获取接口列表，请耐心等待一下...'
     loading.start()
-    const result = await got.get('http://yapi.smart-xwork.cn/api/interface/list', { 
+    const result = await request('/api/interface/list', { 
+      method: 'GET',
       searchParams: {
-        token: 'dbef9dfe4f8a8cfc6c17871803a1633f5506d760278f948083dd84b0e6ebaad8',
+        token: yapiConfig.token,
         limit: 999999,
         page: 1,
       },
@@ -46,9 +50,10 @@ export const getCurrentInterfaceList = async () => {
  */
 export const getInterfaceDetailById = async (id: number) => {
   try {
-    const interfaceDetail = await got.get('http://yapi.smart-xwork.cn/api/interface/get', {
+    const interfaceDetail = await request('/api/interface/get', {
+      method: 'GET',
     searchParams: {
-      token: 'dbef9dfe4f8a8cfc6c17871803a1633f5506d760278f948083dd84b0e6ebaad8',
+      token: yapiConfig.token,
       id: id
     }
   }).json<YapiInterfaceResponse<InterRequestDescribeTypes>>()

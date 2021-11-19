@@ -24,7 +24,7 @@ export interface InterfaceDetailResponse {
   catid?: number;
   title?: string;
   path?: string;
-  method?: string;
+  method?: RequestMethod;
   status?: string;
   req_body_type?: "json" | "row";
   req_body_form?: Array<InterRequestDescribeTypes>;
@@ -79,10 +79,11 @@ export interface ParseRequestModule {
   query: string[];
 
   /** @name Body参数 */
-  data: string[];
+  data?: string[];
 
   params: string[],
 
+  /** 接口列表 */
   interface?: Record<string, any>
 
 }
