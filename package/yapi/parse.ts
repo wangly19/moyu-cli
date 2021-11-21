@@ -1,16 +1,10 @@
 import { transFormFunctionName } from '@/utils'
-import type { InterfaceDetailResponse, ParseRequestModule, InterRequestDescribeTypes } from './yapi'
-import {  } from 'json-schema-to-typescript'
+import type { InterfaceDetailResponse, ParseRequestModule, InterRequestDescribeTypes } from './interface'
 import type { JSONSchema4, JSONSchema4TypeName } from 'json-schema'
+import chalk from 'chalk'
 
 export const parseRequestBody = () => {
   
-}
-
-export const parseRequestParamsPath = (path: string, kyes: string[]) => {
-  const cpPath: string = path
-  kyes.forEach((param: string) => cpPath.replace(`${param}`, '$' + `{${param}}`))
-  return cpPath
 }
 
 export const parseRequestInterface = (properties: InterRequestDescribeTypes[], data?: string): Record<string, any> => {
@@ -31,11 +25,12 @@ export const parseRequestInterface = (properties: InterRequestDescribeTypes[], d
     }
   }
   properties.forEach((item) => {
+    if (item.required === 1) {
+      schema.required = [...schema.required as string[], item.name]
+    }
     if (schema.properties) {
-      console.log(item.type)
       schema.properties[item.name] = {
-        type: (item?.type || 'string | number') as JSONSchema4TypeName,
-        required: item.required === 1,
+        type: 'string | number' as JSONSchema4TypeName,
         description: item.desc,
       }
     }
@@ -48,7 +43,7 @@ export const parseResponseInterface = () => {
   
 }
 
-export const parseRequestModule = async (detail: InterfaceDetailResponse) => {
+export const parseRequestModule = async (detail: InterfaceDetailResponse, itTs?: boolean) => {
   let requestModule: ParseRequestModule = {
     name: '',
     path: '',
@@ -59,6 +54,8 @@ export const parseRequestModule = async (detail: InterfaceDetailResponse) => {
 
   requestModule.method = detail.method || 'POST'
   
+  requestModule.path = detail.path?.replace('{', '${') || ''
+  
   /** 文件内容和名称 */
   if (detail.method && detail.path) {
     requestModule.name = transFormFunctionName(detail.method, detail.path)
@@ -67,7 +64,6 @@ export const parseRequestModule = async (detail: InterfaceDetailResponse) => {
   /** paramsUrl参数转换 */
   if (detail.req_params && detail.path) {
     const paramNames: string[] = detail.req_params.map((v) => v.name)
-    requestModule.path = parseRequestParamsPath(detail.path, paramNames)
     requestModule.params = paramNames
   }
 
@@ -77,9 +73,11 @@ export const parseRequestModule = async (detail: InterfaceDetailResponse) => {
     requestModule.query = queryNames
   }
 
-  // let interfaceSchema: Record<string, any> = {}
-
-  if (true) {
+  if (itTs) {
+    requestModule.interface = {
+      req: undefined,
+      res: undefined
+    }
     let properties: InterRequestDescribeTypes[] = []
     if (Array.isArray(detail.req_query)) {
       properties = [...properties, ...detail.req_query]
@@ -89,6 +87,17 @@ export const parseRequestModule = async (detail: InterfaceDetailResponse) => {
       properties = [...properties, ...detail.req_params]
     }
 
-    parseRequestInterface(properties, detail.req_body_other)
+    requestModule.interface.req = parseRequestInterface(properties, detail.req_body_other)
+    if (detail?.res_body) {
+      try {
+        requestModule.interface.res = JSON.parse(detail.res_body)
+      } catch (error) {
+        console.log(chalk.red('[Log]:', `${detail.path}类型处理失败，请检查平台接口定义无误后重新拉取`))
+      }
+      
+    }
   }
+
+  return requestModule
+  
 } 

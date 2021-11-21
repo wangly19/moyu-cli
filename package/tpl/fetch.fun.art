@@ -1,0 +1,36 @@
+import request from '@xxxx'
+
+const {{name}} = (allParams, options) => {
+
+  {{set isParams = params.length > 0}}
+  {{set isQuery = query.length > 0}}
+  {{if isQuery || isParams}}
+  const {
+    {{if isParams}}
+      {{ each params }}
+        {{$value}},
+      {{/each}}
+    {{/if}}
+    {{if isQuery}}
+      {{ each query }}
+        {{$value}},
+      {{/each}}
+    {{/if}}
+    ...data
+  } = allParams
+  {{/if}}
+
+  
+  return request(`{{path}}`, {
+    method: '{{method}}',
+    params: {
+      {{each query}}
+        {{$value}},
+      {{/each}}
+    },
+    data: {{isQuery || isParams ? 'data' : 'allParams'}}
+    
+  })
+}
+
+export default {{name}}

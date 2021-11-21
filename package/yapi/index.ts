@@ -3,13 +3,11 @@ import ora from "ora"
 import chalk from "chalk"
 // import logger from '@/utils/logger'
 import { parseRequestModule } from "./parse"
+import generateModuleLocalFile from "./generate"
 
 const loading = ora()
 
-const main = async () => {
-//   logger.error('这是一条日志1');
-// logger.error('这是一条日志2');
-// logger.error('这是一条日志3');
+const main = async (itTs?: boolean) => {
 
   const result = await getCurrentInterfaceList()
   const promises = result.map((id) => getInterfaceDetailById(id))
@@ -24,12 +22,14 @@ const main = async () => {
     details.forEach(async (v: any) => {
       if (v.value) {
         try {
-          await parseRequestModule(v.value)
+          const module = await parseRequestModule(v.value, itTs)
+          await generateModuleLocalFile(module, itTs)
         } catch (error) {
           throw error
         }
       }
     })
+    
   } catch (error) {
     loading.succeed(
       chalk.green(`获取接口列表详情失败，请查看moyu-error.log`)

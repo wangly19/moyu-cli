@@ -1,0 +1,13 @@
+{{
+  request
+}}
+
+{{response}}
+
+export default function {{name}} <
+  P = {{ request ? requestName : "any" }},
+  R = {{ response ? responseName : "any" }}
+>(
+  params: P,
+  options?: Record<string, any>
+): Promise<R>

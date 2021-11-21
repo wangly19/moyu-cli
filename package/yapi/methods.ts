@@ -5,7 +5,7 @@ import type {
   YapiInterfaceResponse, 
   InterfaceListResponse, 
   InterRequestDescribeTypes 
-} from './yapi'
+} from './interface'
 import moyuConfig from '@/config'
 import request from '@/utils/request'
 

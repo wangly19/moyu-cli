@@ -30,7 +30,8 @@ export interface InterfaceDetailResponse {
   req_body_form?: Array<InterRequestDescribeTypes>;
   req_body_other?: string;
   req_query?: Array<InterRequestDescribeTypes>;
-  res_body?: Array<InterRequestDescribeTypes>;
+  res_body?: string;
+  res_body_type?: string;
   req_params?: Array<InterRequestDescribeTypes>;
   add_time: string;
   up_time: string;
@@ -84,6 +85,9 @@ export interface ParseRequestModule {
   params: string[],
 
   /** 接口列表 */
-  interface?: Record<string, any>
+  interface?: {
+    req?: Record<string, any>,
+    res?: Record<string, any>
+  }
 
 }

@@ -10,7 +10,7 @@ program
   .option("--ts, --typescript", "创建TypeScript相关类型声明")
   .option("--f, --fore", "强制覆盖本地所有接口")
   .action((options) => {
-    main()
+    main(options?.typescript)
   });
 
 program.version(`v${version}`).parse(process.argv);
