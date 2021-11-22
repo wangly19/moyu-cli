@@ -67,6 +67,9 @@ export interface InterRequestBodyOther {
 }
 
 export interface ParseRequestModule {
+  /** @name 配置的接口请求导入地址 */
+  requestImportResolve: string,
+
   /** @name 函数或者是方法的名称 */
   name: string;
 

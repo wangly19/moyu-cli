@@ -2,6 +2,7 @@ import { transFormFunctionName } from '@/utils'
 import type { InterfaceDetailResponse, ParseRequestModule, InterRequestDescribeTypes } from './interface'
 import type { JSONSchema4, JSONSchema4TypeName } from 'json-schema'
 import chalk from 'chalk'
+import config from '@/config'
 
 export const parseRequestBody = () => {
   
@@ -45,6 +46,7 @@ export const parseResponseInterface = () => {
 
 export const parseRequestModule = async (detail: InterfaceDetailResponse, itTs?: boolean) => {
   let requestModule: ParseRequestModule = {
+    requestImportResolve: config.getYpiConfig().requestImportResolve || '',
     name: '',
     path: '',
     method: 'POST',

@@ -1,4 +1,4 @@
-import request from '@xxxx'
+import request from '{{requestImportResolve}}'
 
 const {{name}} = (allParams, options) => {
 
